@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0810">
+  <meta name="description" content="Demon Torneo: un juego de cartas táctico de duelos 1 contra 1 inspirado en las mecánicas de Inuyasha Demon Tournament.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23120d18'/%3E%3Cpath d='M32 8 56 32 32 56 8 32Z' fill='none' stroke='%23d8a94a' stroke-width='3'/%3E%3Cpath d='M22 24h20M32 24v20' stroke='%23d8a94a' stroke-width='3'/%3E%3C/svg%3E">
+  <title>Demon Torneo — El Jade del Alba</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-sun"></div>
+    <div class="backdrop-moon"></div>
+    <div class="cloud cloud-a"></div>
+    <div class="cloud cloud-b"></div>
+    <div class="cloud cloud-c"></div>
+    <svg class="mountains" viewBox="0 0 1440 480" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 300 L120 210 L210 270 L320 180 L430 280 L540 200 L680 300 L800 220 L930 300 L1050 190 L1170 280 L1290 210 L1440 300 L1440 480 L0 480 Z" fill="#151222"/>
+      <path d="M0 360 L150 300 L280 350 L410 280 L560 370 L700 300 L820 360 L960 290 L1100 360 L1230 300 L1360 350 L1440 320 L1440 480 L0 480 Z" fill="#0d0b16"/>
+      <path d="M0 420 L180 390 L340 425 L520 380 L700 430 L880 390 L1060 430 L1240 385 L1440 420 L1440 480 L0 480 Z" fill="#08070e"/>
+    </svg>
+    <div class="torii">
+      <span class="torii-top"></span>
+      <span class="torii-beam"></span>
+      <span class="torii-post left"></span>
+      <span class="torii-post right"></span>
+    </div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div id="svg-defs"></div>
+
+  <header class="topbar" id="topbar">
+    <button class="brand" id="brand" type="button" aria-label="Ir al inicio">
+      <span class="brand-mark">凶</span>
+      <span class="brand-copy">
+        <strong>DEMON TORNEO</strong>
+        <small>El Jade del Alba</small>
+      </span>
+    </button>
+    <div class="topbar-center">
+      <div id="top-shards" class="top-shards"></div>
+      <div id="top-progress" class="top-progress"></div>
+    </div>
+    <nav class="top-actions" aria-label="Acciones del juego">
+      <button class="icon-btn" id="btn-sound" type="button" aria-pressed="true" title="Sonido">
+        <span class="icon-btn-glyph" data-sound-glyph>♪</span>
+        <span class="icon-btn-label">Sonido</span>
+      </button>
+      <button class="icon-btn" id="btn-help" type="button" title="Cómo jugar">
+        <span class="icon-btn-glyph">?</span>
+        <span class="icon-btn-label">Reglas</span>
+      </button>
+      <button class="icon-btn" id="btn-menu" type="button" title="Menú">
+        <span class="icon-btn-glyph">☰</span>
+        <span class="icon-btn-label">Menú</span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section id="screen-title" class="screen screen-title">
+      <div class="title-wrap">
+        <div class="title-copy">
+          <p class="eyebrow"><span></span> Duelo táctico de cartas <span></span></p>
+          <h1 class="game-title">
+            <span class="title-line">DEMON</span>
+            <span class="title-line accent">TORNEO</span>
+          </h1>
+          <p class="title-kicker">El Jade del Alba</p>
+          <p class="title-lead">Ocho guerreros. Cinco fragmentos. Un solo trono.<br>Elige tres acciones. Lee a tu rival. Sobrevive.</p>
+          <div class="title-actions">
+            <button class="btn btn-primary btn-large" id="btn-new" type="button">
+              <span class="btn-glyph">刀</span>
+              <span>Nuevo torneo</span>
+            </button>
+            <button class="btn btn-ghost btn-large hidden" id="btn-continue" type="button">
+              <span class="btn-glyph">続</span>
+              <span>Continuar</span>
+            </button>
+            <button class="btn btn-ghost btn-large" id="btn-how-title" type="button">
+              <span class="btn-glyph">?</span>
+              <span>Cómo jugar</span>
+            </button>
+          </div>
+          <p class="title-note">Mecánicas inspiradas en <em>Inuyasha: Demon Tournament</em>. Personajes y arte originales.</p>
+        </div>
+        <div class="title-showcase" id="title-showcase" aria-hidden="true"></div>
+      </div>
+      <div class="title-strip">
+        <span>ELIGE 3 CARTAS</span><i></i>
+        <span>LEE EL MOVIMIENTO</span><i></i>
+        <span>RECLAMA EL JADE</span>
+      </div>
+    </section>
+
+    <section id="screen-select" class="screen screen-select hidden">
+      <div class="select-header">
+        <button class="btn btn-ghost btn-small" id="btn-select-back" type="button">← Volver</button>
+        <div class="select-title">
+          <p class="eyebrow"><span></span> Paso 1 de 2 <span></span></p>
+          <h2>Elige a tu campeón</h2>
+          <p>Cada guerrero tiene un mazo y un estilo de combate distintos.</p>
+        </div>
+        <div class="difficulty-block">
+          <span class="difficulty-label">Dificultad</span>
+          <div class="segmented" id="difficulty-picker" role="group" aria-label="Dificultad"></div>
+          <span class="difficulty-blurb" id="difficulty-blurb"></span>
+        </div>
+      </div>
+      <div class="select-layout">
+        <div class="char-grid" id="char-grid"></div>
+        <aside class="char-detail" id="char-detail"></aside>
+      </div>
+    </section>
+
+    <section id="screen-battle" class="screen screen-battle hidden">
+      <div class="battle-hud">
+        <div id="player-hud" class="hud-slot"></div>
+        <div class="round-core">
+          <div class="round-kicker" id="round-kicker">RONDA</div>
+          <div class="round-number" id="round-number">1</div>
+          <div class="round-state" id="round-state">Planifica tu ronda</div>
+          <div class="round-shards" id="round-shards"></div>
+        </div>
+        <div id="enemy-hud" class="hud-slot"></div>
+      </div>
+
+      <div class="battle-body">
+        <aside class="battle-side left">
+          <div class="side-panel log-panel">
+            <div class="panel-head">
+              <h3>Registro de combate</h3>
+              <span class="panel-dot"></span>
+            </div>
+            <div class="battle-log" id="battle-log" aria-live="polite"></div>
+          </div>
+          <div class="side-panel legend-panel">
+            <div class="panel-head"><h3>Prioridad</h3></div>
+            <ul class="priority-list">
+              <li><b>1</b><span>Movimiento</span></li>
+              <li><b>2</b><span>Guardia</span></li>
+              <li><b>3</b><span>Ataque</span></li>
+            </ul>
+            <p class="legend-note">Al final de cada ronda ambos recuperan <b>+15 EN</b>.</p>
+          </div>
+        </aside>
+
+        <div class="arena">
+          <div class="arena-banner">
+            <div class="banner-line"></div>
+            <div id="arena-hint" class="arena-hint">Elige tus acciones en orden</div>
+            <div class="banner-line"></div>
+          </div>
+          <div class="board-frame" id="board-frame">
+            <div class="frame-corner tl"></div>
+            <div class="frame-corner tr"></div>
+            <div class="frame-corner bl"></div>
+            <div class="frame-corner br"></div>
+            <div id="board-host"></div>
+          </div>
+
+          <div class="action-slots" id="action-slots"></div>
+
+          <div class="plan-controls">
+            <button class="btn btn-ghost btn-small" id="btn-clear" type="button">Limpiar</button>
+            <div class="energy-readout" id="energy-readout"></div>
+            <button class="btn btn-speed" id="btn-speed" type="button" title="Velocidad de combate">1×</button>
+            <button class="btn btn-primary btn-execute" id="btn-execute" type="button" disabled>
+              <span>Ejecutar ronda</span>
+              <span class="execute-glyph">⚔</span>
+            </button>
+          </div>
+
+          <div class="hand-wrap">
+            <div class="hand-head">
+              <div>
+                <span class="hand-kicker">TU MAZO</span>
+                <h3 id="deck-title">Técnicas disponibles</h3>
+              </div>
+              <span class="deck-note" id="deck-note"></span>
+            </div>
+            <div class="hand" id="hand"></div>
+          </div>
+        </div>
+
+        <aside class="battle-side right">
+          <div class="side-panel plan-panel">
+            <div class="panel-head">
+              <h3>Plan actual</h3>
+              <span class="plan-cost" id="plan-cost">0 EN</span>
+            </div>
+            <div class="plan-summary" id="plan-summary"></div>
+          </div>
+          <div class="side-panel inspect-panel" id="inspect-panel"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal-root" class="modal-root hidden" aria-live="polite"></div>
+  <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
